@@ -406,7 +406,7 @@ export default function StudentAccountPage({ student }) {
 
                                 })}
 
-                                {revealAnswer && <div className='text-white fs-3 mt-3'>{score} rätta svar av {quizType === 'standard' ? '187' : '65'} {quizType === 'timed' ? (score > 51 ? <span className='text-success'>Godkänt</span> : <span className='text-danger'>Underkänt</span>) : ''} <Button onClick={() => {setRevealAnswer(false);setQuizType('');setChosenAnswers([]);setPaginationItems([]);setActiveQuestionIndex(0);}} className='float-end' size='sm' variant='primary'>Stäng</Button></div>}
+                                {revealAnswer && <div className='text-white fs-3 mt-3'>{score} rätt{score > 1 ? 'a' : ''} svar av {quizType === 'standard' ? '187' : '65'} {quizType === 'timed' ? (score > 51 ? <span className='text-success'>Godkänt</span> : <span className='text-danger'>Underkänt</span>) : ''} <Button onClick={() => {setRevealAnswer(false);setQuizType('');setChosenAnswers([]);setPaginationItems([]);setActiveQuestionIndex(0);}} className='float-end' size='sm' variant='primary'>Stäng</Button></div>}
 
                                 {!revealAnswer && <Button className='mt-3' variant='primary' onClick={correctTest}>{quizType === 'standard' ? 'Rätta' : 'Avsluta testet och visa resultatet'}</Button>}
 
