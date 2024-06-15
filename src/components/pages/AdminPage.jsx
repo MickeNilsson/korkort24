@@ -1,5 +1,5 @@
 import Form from 'react-bootstrap/Form';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Tab, Tabs } from 'react-bootstrap';
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
@@ -8,6 +8,8 @@ export default function AdminPage(props) {
     const [quizInJsxFormat, setQuizInJsxFormat] = useState(<h1>Loading...</h1>);
 
     const [showModal, setShowModal] = useState(false);
+
+    const [newInfo, setNewInfo] = useState('');
 
     const [newQuestions, setNewQuestions] = useState('');
 
@@ -26,7 +28,7 @@ export default function AdminPage(props) {
             .then(function (getQuizResponse_o) {
 
                 if (getQuizResponse_o.status === 200) {
-                    
+
                     quiz_o.current = getQuizResponse_o.data;
 
                     const quiz_jsx = convertQuizToJsxFormat(quiz_o.current);
@@ -47,8 +49,8 @@ export default function AdminPage(props) {
     }
 
     function deleteQ(section_s, question_s) {
-        
-        if(question_s) {
+
+        if (question_s) {
 
             delete quiz_o.current[section_s][question_s];
 
@@ -56,9 +58,9 @@ export default function AdminPage(props) {
 
             delete quiz_o.current[section_s];
         }
-        
+
         quiz_o.current.delete = true;
-        
+
         axios.post('https://körkort24.com/api/quiz/', quiz_o.current)
 
             .then(function (postQuizResponse_o) {
@@ -93,7 +95,7 @@ export default function AdminPage(props) {
     }
 
     function uploadFile(questionId_s, e) {
-        
+
         const imageElement_o = e.target.parentElement.previousSibling;
 
         const file_o = e.target.files[0];
@@ -111,10 +113,10 @@ export default function AdminPage(props) {
         e.target.value = null;
 
         window.questionid = questionId_s;
-        
+
         axios.post('https://körkort24.com/api/uploads/', formData_o)
 
-            .then(function(fileUploadResponse_o) {
+            .then(function (fileUploadResponse_o) {
 
                 setModalMessage('Bilden är sparad');
 
@@ -123,7 +125,7 @@ export default function AdminPage(props) {
                 imageElement_o.src = 'https://körkort24.com/images/' + fileName_s + '?' + new Date().getTime();
             })
 
-            .catch(function(error) {
+            .catch(function (error) {
 
                 debugger;
             });
@@ -164,7 +166,7 @@ export default function AdminPage(props) {
 
                     <div>
 
-                        <h4 style={{display: 'inline-block'}}>{question_s}</h4>
+                        <h4 style={{ display: 'inline-block' }}>{question_s}</h4>
 
                         <Button className='delete-section-button'
                             onClick={() => deleteQ(section_s, question_s)}
@@ -176,7 +178,7 @@ export default function AdminPage(props) {
 
                         {answers_a}
 
-                        <img style={{width: '300px', display: 'block'}} src={'https://körkort24.com/images/find_image.php?name=' + question_o.id} alt='Question illustration' />
+                        <img style={{ width: '300px', display: 'block' }} src={'https://körkort24.com/images/find_image.php?name=' + question_o.id} alt='Question illustration' />
 
                         <Form.Group className='mb-3'
                             controlId='formFileSm'>
@@ -184,7 +186,7 @@ export default function AdminPage(props) {
                             {/* <Form.Label>Small file input example</Form.Label> */}
 
                             <Form.Control
-                                onChange={(e) => {uploadFile(question_o.id, e)}}
+                                onChange={(e) => { uploadFile(question_o.id, e) }}
                                 size='sm'
                                 type='file' />
 
@@ -230,16 +232,16 @@ export default function AdminPage(props) {
         e.stopPropagation();
 
         try {
-            
+
             var newQuestions_o = JSON.parse(newQuestions.replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"'));
 
-        } catch(e) {
+        } catch (e) {
 
             alert('JSON-strukturen är felaktig.');
 
             return;
         }
-        
+
         axios.post('https://körkort24.com/api/quiz/', newQuestions_o)
 
             .then(function (response_o) {
@@ -277,38 +279,90 @@ export default function AdminPage(props) {
                 debugger;
             });
     }
+
+    function addInfo(e) {
+
+        e.preventDefault();
+
+        e.stopPropagation();
+
+    }
+
+    function updateNewInfo(e) {
+
+        setNewInfo(e.target.value);
+    }
+
     return (
         <>
             <div className='pb-5'>
 
-                <h1 className='page-header'>Admin Page {rerenderState}</h1>
+                <h1 className='page-header'>Admin Page</h1>
 
-                <Form className='mb-3'
-                    onSubmit={addQuestions}
-                    spellCheck={false}
+                <Tabs
+                    defaultActiveKey="questions"
+                    id="admin-tabs"
+                    className="mb-3"
                 >
+                    <Tab eventKey="questions" title="Frågor">
 
-                    <Form.Group className='mb-3'>
+                        <Form className='mb-3'
+                            onSubmit={addQuestions}
+                            spellCheck={false}
+                        >
+                            <Form.Group className='mb-3'>
 
-                        <Form.Control className='new-questions-textarea'
-                            as='textarea'
-                            onChange={updateNewQuestions}
-                            rows={20}
-                            value={newQuestions} />
+                                <Form.Control className='new-questions-textarea'
+                                    as='textarea'
+                                    onChange={updateNewQuestions}
+                                    rows={20}
+                                    value={newQuestions} />
 
-                    </Form.Group>
+                            </Form.Group>
 
-                    <Button
-                        size='sm'
-                        type='submit'
-                        variant='primary'
-                    >
-                        Lägg till frågor
-                    </Button>
+                            <Button
+                                size='sm'
+                                type='submit'
+                                variant='primary'
+                            >
+                                Lägg till frågor
+                            </Button>
 
-                </Form>
+                        </Form>
 
-                <div className='quiz p-3'>{quizInJsxFormat}</div>
+                        <div className='quiz p-3'>{quizInJsxFormat}</div>
+
+                    </Tab>
+                    <Tab eventKey="info" title="Info">
+                    <Form className='mb-3'
+                            onSubmit={addInfo}
+                            spellCheck={false}
+                        >
+                            <Form.Group className='mb-3'>
+
+                                <Form.Control className='new-info-textarea'
+                                    as='textarea'
+                                    onChange={updateNewInfo}
+                                    rows={20}
+                                    value={newInfo} />
+
+                            </Form.Group>
+
+                            <Button
+                                size='sm'
+                                type='submit'
+                                variant='primary'
+                            >
+                                Lägg till info
+                            </Button>
+
+                        </Form>
+                    </Tab>
+                    
+                </Tabs>
+
+
+
 
             </div>
 
