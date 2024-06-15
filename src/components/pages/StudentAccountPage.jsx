@@ -295,6 +295,11 @@ export default function StudentAccountPage({ student }) {
         return array.slice(0, numberOfElements);
     }
 
+    function showInfo() {
+
+        
+    }
+
     return (
 
         <>
@@ -398,11 +403,10 @@ export default function StudentAccountPage({ student }) {
 
                 <Tab eventKey="info" title="Info">
 
-                    <Form.Select onChange={e => showQuiz(e.target)} size='sm'>
+                    <Form.Select onChange={e => showInfo(e.target)} size='sm'>
 
                         <option>Välj en text</option>
                         <option>B-Körkort</option>
-                        <option>C-Körkort</option>
 
                     </Form.Select>
 
