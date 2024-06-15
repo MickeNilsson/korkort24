@@ -14,6 +14,8 @@ export default function StudentAccountPage({ student }) {
 
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
+    const [info, setInfo] = useState({});
+
     const [quizzes, setQuizzes] = useState([]);
 
     const [quizTitles, setQuizTitles] = useState([]);
@@ -297,7 +299,15 @@ export default function StudentAccountPage({ student }) {
 
     function showInfo() {
 
-        
+        axios.get('https://körkort24.com/api/info/')
+
+            .then(response_o => {
+
+                if (response_o && response_o.data) {
+
+                    setInfo(response_o.data[0]);
+                }
+            });
     }
 
     return (
@@ -310,7 +320,13 @@ export default function StudentAccountPage({ student }) {
                 className="mb-3"
             >
                 <Tab eventKey="home" title="Hem" className='text-white'>
-                    Tab content for Home
+
+                    <div style={{borderRadius: '5px', backgroundColor: 'rgba(0, 0, 0, 0.7)'}} className='p-2 mt-3 text-white'>
+                        Hej {student.firstname}!
+                        <p>Dina resultat:</p>
+                        <p>B-körkortsprov: 62 av 65 rätt</p>
+                    </div>
+                    
                 </Tab>
 
                 <Tab eventKey="questions" title="Frågor" className='p-3' style={{ backgroundColor: 'rgba(0, 0, 0, 0.7' }}>
@@ -383,7 +399,7 @@ export default function StudentAccountPage({ student }) {
                                             onChange={() => { userPickedAnswer(); handleChange(questionId_s, answer_s) }}
                                             defaultChecked={chosenAnswers[questionId_s] === answer_s}
                                             type='radio'
-                                            style={{ borderRadius: '5px', backgroundColor: (chosenAnswers[questionId_s] === answer_s && paginationItems[questionId_s]) || '' }}
+                                            style={{opacity: '1.0', borderRadius: '5px', backgroundColor: (chosenAnswers[questionId_s] === answer_s && paginationItems[questionId_s]) || '' }}
                                             className='text-white answer'
                                             label={answer_s} />
                                     );
@@ -409,6 +425,8 @@ export default function StudentAccountPage({ student }) {
                         <option>B-Körkort</option>
 
                     </Form.Select>
+
+                    {info.text && <div style={{borderRadius: '5px', backgroundColor: 'rgba(0, 0, 0, 0.7)'}} className='p-2 mt-3 text-white' dangerouslySetInnerHTML={{__html:info.text}}></div>}
 
                 </Tab>
 

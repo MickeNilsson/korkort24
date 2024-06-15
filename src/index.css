@@ -91,6 +91,10 @@ body {
     transform: translateY(-50%);
 }
 
+.form-check-input[disabled] ~ .form-check-label, .form-check-input:disabled ~ .form-check-label {
+    opacity: 1 !important;
+}
+
 .answer:hover {
     background-color: rgb(101, 181, 218);
 }
