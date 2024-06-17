@@ -24,7 +24,7 @@ export default function App() {
 
             hasInitialised.current = true;
            
-            setPage(<StartPage setPage={setPage} />);
+            setPage(<StartPage setPage={setPage} setStudent={setStudent} />);
         }
         
     }, []);
