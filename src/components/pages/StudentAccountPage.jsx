@@ -10,8 +10,8 @@ import Pagination from 'react-bootstrap/Pagination';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-export default function StudentAccountPage({ student }) {
-
+export default function StudentAccountPage({student}) {
+    
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
     const [info, setInfo] = useState({});
