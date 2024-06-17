@@ -31,7 +31,7 @@ function post($payload_o, $db_o) {
 
         $statusCode_i = 201;
 
-        $response_o->{'data'} = createStudent($payload_o, $db_o);
+        $response_o = createStudent($payload_o, $db_o);
     }
 
     http_response_code($statusCode_i);
