@@ -7,10 +7,11 @@ import {useState} from 'react';
 import EmailField from '../inputfields/EmailField';
 import TextField  from '../inputfields/TextField';
 import SignUpButton from '../buttons/SignUpButton';
+import StudentAccountPage from './StudentAccountPage';
 import PasswordField from '../inputfields/PasswordField';
 
 export default function SignUpPage({setPage, setStudent}) {
-
+    
     const [studentAccountCreationPending, setStudentAccountCreationPending] = useState(false);
 
     const [email, setEmail] = useState('');
@@ -50,12 +51,12 @@ export default function SignUpPage({setPage, setStudent}) {
                 password: password,
               })
               .then(function (response_o) {
-                debugger;
+               
                 if(response_o.status === 201) {
 
-                    setStudent({student: {firstname, lastname, email}});
+                    setStudent({firstname, lastname, email});
 
-                    setPage('Student account');
+                    setPage(<StudentAccountPage student={{firstname, lastname, email}} />);
                 }
               })
               .catch(function (error_o) {

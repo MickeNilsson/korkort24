@@ -3,7 +3,7 @@ import SignUpPageButton from '../buttons/SignUpPageButton';
 import Card from 'react-bootstrap/Card';
 
 export default function StartPage({setPage, setStudent}) {
-
+    
     return (
         <div style={{textAlign: 'center'}}>
             <Card style={{marginBottom: '20px', backgroundColor: 'rgba(0, 0, 0, 0.5)', color: 'white'}}>
