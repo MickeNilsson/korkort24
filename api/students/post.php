@@ -1,12 +1,12 @@
 <?php
 
-function post($payload_a, $db_o) {
+function post($payload_o, $db_o) {
 
     $response_o = new stdClass();
 
     $statusCode_i = null;
 
-    $missingParametersInPayload_s = checkForMissingParametersInPayload($payload_a);
+    $missingParametersInPayload_s = checkForMissingParametersInPayload($payload_o);
 
     if($missingParametersInPayload_s) {
 
@@ -17,7 +17,7 @@ function post($payload_a, $db_o) {
 
     if(!$statusCode_i) {
 
-        $studentAlreadyExists_b = checkIfStudentAlreadyExists($payload_a, $db_o);
+        $studentAlreadyExists_b = checkIfStudentAlreadyExists($payload_o, $db_o);
 
         if($studentAlreadyExists_b) {
 
@@ -31,7 +31,7 @@ function post($payload_a, $db_o) {
 
         $statusCode_i = 201;
 
-        $response_o->{'data'} = createStudent($payload_a, $db_o);
+        $response_o->{'data'} = createStudent($payload_o, $db_o);
     }
 
     http_response_code($statusCode_i);
@@ -39,26 +39,26 @@ function post($payload_a, $db_o) {
     return $response_o;
 }
 
-function checkForMissingParametersInPayload($payload_a) {
+function checkForMissingParametersInPayload($payload_o) {
 
     $missingParametersInPayload_a = [];
 
-    if(empty($payload_a['email'])) {
+    if(empty($payload_o->{'email'})) {
 
         array_push($missingParametersInPayload_a, 'email');
     }
 
-    if(empty($payload_a['firstname'])) {
+    if(empty($payload_o->{'firstname'})) {
 
         array_push($missingParametersInPayload_a, 'firstname');
     }
 
-    if(empty($payload_a['lastname'])) {
+    if(empty($payload_o->{'lastname'})) {
 
         array_push($missingParametersInPayload_a, 'lastname');
     }
 
-    if(empty($payload_a['password'])) {
+    if(empty($payload_o->{'password'})) {
 
         array_push($missingParametersInPayload_a, 'password');
     }
@@ -68,10 +68,10 @@ function checkForMissingParametersInPayload($payload_a) {
     return $missingParametersInPayload_s;
 }
 
-function checkIfStudentAlreadyExists($payload_a, $db_o) {
+function checkIfStudentAlreadyExists($payload_o, $db_o) {
 
     $params_a = [
-        'email' => $payload_a['email'] 
+        'email' => $payload_o->{'email'} 
     ];
 
     $dbQueryResult_o = $db_o->select('student', $params_a);
@@ -92,13 +92,13 @@ function createErrorObject($statusCode_i, $errorMessage_s) {
     return $error_o;
 }
 
-function createStudent($payload_a, $db_o) {
+function createStudent($payload_o, $db_o) {
 
     $params_a = [
-        'firstname' => $payload_a['firstname'],
-        'lastname' => $payload_a['lastname'],
-        'email' => $payload_a['email'],
-        'password' => $payload_a['password']
+        'firstname' => $payload_o->{'firstname'},
+        'lastname' => $payload_o->{'lastname'},
+        'email' => $payload_o->{'email'},
+        'password' => $payload_o->{'password'}
     ];
 
     $dbQueryResult_o = $db_o->insertInto('student', $params_a);
