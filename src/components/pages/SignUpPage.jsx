@@ -50,7 +50,7 @@ export default function SignUpPage({setPage, setStudent}) {
                 password: password,
               })
               .then(function (response_o) {
-                
+                debugger;
                 if(response_o.status === 201) {
 
                     setStudent({student: {firstname, lastname, email}});
@@ -59,7 +59,7 @@ export default function SignUpPage({setPage, setStudent}) {
                 }
               })
               .catch(function (error_o) {
-
+                debugger;
                 setStudentAccountCreationPending(false);
 
                 switch(error_o.response.status) {
@@ -83,7 +83,7 @@ export default function SignUpPage({setPage, setStudent}) {
 
             <Card.Body>
 
-                <Card.Text><small>Skapa studentkonto</small></Card.Text>
+                <Card.Text><small>Skapa konto</small></Card.Text>
 
                 <Form
                     noValidate

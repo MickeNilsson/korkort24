@@ -9,6 +9,6 @@ export default function SignUpPageButton({setPage}) {
         <Button 
             onClick={() => setPage(<SignUpPage />)}
             size='sm'
-            variant='success'>Bli medlem</Button>
+            variant='success'>Skapa konto</Button>
     );
 }
