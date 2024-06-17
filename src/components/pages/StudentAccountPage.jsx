@@ -313,7 +313,7 @@ export default function StudentAccountPage({ student }) {
     return (
 
         <>
-            <h1 style={{ color: 'white' }}>Studentkonto för {student.firstname} {student.lastname}</h1>
+            <h1 style={{ color: 'white' }}>{student.firstname} {student.lastname}'s konto</h1>
 
             <Tabs
                 defaultActiveKey='home'
