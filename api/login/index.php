@@ -42,8 +42,16 @@ switch($_SERVER['REQUEST_METHOD']) {
                 }
             }
         }
+
+        $errorResponse_o = new stdClass();
+
+        $errorResponse_o->status = 'error';
+
+        $errorResponse_o->error = 'Incorrect username/password combination';
         
-        echo json_encode($students_a, JSON_UNESCAPED_UNICODE);
+        http_response_code(500);
+        
+        echo json_encode($errorResponse_o, JSON_UNESCAPED_UNICODE);
 
         break;
 }

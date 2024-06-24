@@ -54,6 +54,11 @@ export default function LoginPage({setPage, student, setStudent}) {
                     setStudent(response_o.data[0]);
                     
                     setPage(<StudentAccountPage student={response_o.data[0]} />);
+                } else {
+
+                    setAwaitingLogInResponse(false);
+
+                    setResponseErrorMessage('E-postadressen eller lösenordet är fel.');
                 }
               })
               .catch(function (error_o) {
@@ -62,7 +67,7 @@ export default function LoginPage({setPage, student, setStudent}) {
 
                 switch(error_o.response.status) {
 
-                    case 401: setResponseErrorMessage('E-postadressen eller lösenordet är fel.'); break;
+                    case 500: setResponseErrorMessage('E-postadressen eller lösenordet är fel.'); break;
                 }
               });
         }
