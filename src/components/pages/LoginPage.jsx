@@ -50,10 +50,10 @@ export default function LoginPage({setPage, student, setStudent}) {
               .then(function (response_o) {
                 
                 if(response_o.status === 200) {
+                   
+                    setStudent(response_o.data[0]);
                     
-                    setStudent(response_o.data);
-                    
-                    setPage(<StudentAccountPage student={response_o.data} />);
+                    setPage(<StudentAccountPage student={response_o.data[0]} />);
                 }
               })
               .catch(function (error_o) {
